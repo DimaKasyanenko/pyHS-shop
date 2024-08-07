@@ -11,3 +11,21 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=150, unique=True, verbose_name="Название товара")
+    slug = models.SlugField(max_length=250, unique=True, blank=True, null=True, verbose_name="Ссылка на товар")
+    description = models.TextField(blank=True, null=True, verbose_name="Описание товара")
+    image = models.ImageField(upload_to='goods_images', blank=True, null=True, verbose_name="Изображение товара")
+    price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2, verbose_name="Цена товара")
+    discount = models.DecimalField(default=0.00, max_digits=4, decimal_places=2, verbose_name="Скидка товара")
+    quantity = models.PositiveIntegerField(default=0, verbose_name="Количество товара")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория товара")
+
+    class Meta:
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
+
+    def __str__(self):
+        return f'{self.name} Количество: {self.quantity}'

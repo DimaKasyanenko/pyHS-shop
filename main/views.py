@@ -1,10 +1,14 @@
 from django.shortcuts import render
 
+from goods.models import Category
+
 
 def index(request):
+    categories = Category.objects.all().order_by('name')
     context = {
         'title': 'Home - Главная',
         'content': 'Магазин мебели HOME',
+        'categories': categories,
     }
     return render(request, 'main/index.html', context)
 
